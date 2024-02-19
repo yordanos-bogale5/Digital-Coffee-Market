@@ -1,269 +1,309 @@
-// ignore_for_file: avoid_print, deprecated_member_use
+/*import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
-
-void main() {
-  runApp(const MyDeveloper());
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class Developer {
-  final String name;
-  final String description;
-  final String github;
-  final String linkedIn;
-  final String email;
-  final String phone;
-
-  Developer({
-    required this.name,
-    required this.description,
-    required this.github,
-    required this.linkedIn,
-    required this.email,
-    required this.phone,
-  });
-}
-
-class DetailScreen extends StatelessWidget {
-  final Developer developer;
-
-  const DetailScreen({super.key, required this.developer});
+class _HomeScreenState extends State<HomeScreen> {
+  bool isDarkMode = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Developed By'),
-        backgroundColor: Colors.blue[900],
-        foregroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              icon: Icon(
+                isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                color: Colors.amber[900],
+              ),
+              onPressed: () {
+                setState(() {
+                  isDarkMode = !isDarkMode;
+                });
+              },
+            ),
+          ],
         ),
-      ),
-      body: Container(
-        color: Colors.black, // Dark background color
-        child: SingleChildScrollView(
-          child: Column(
+        body: SingleChildScrollView(
+          child: Stack(
             children: [
-              _buildTopSection(),
-              _buildDetailsSection(),
-              _buildAdditionalDetailsSection(),
+               AnimatedContainer(
+              duration: const Duration(seconds: 1),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    isDarkMode ? Colors.black87 : Colors.grey,
+                    isDarkMode ? Colors.black87 : Colors.white,
+                  ],
+                ),
+              ),
+            ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 110.0, bottom: 7),
+                    child: Center(
+                      child: Card(
+                        elevation: 0.0,
+                        color: isDarkMode ? Colors.black : Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          side: const BorderSide(
+                            color: Colors.amber,
+                            width: 1,
+                          ),
+                        ),
+                        child: Container(
+                          height: 103,
+                          width: 350,
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(right: 50.0),
+                                    child: Icon(
+                                      Icons.coffee,
+                                      size: 50.0,
+                                      color: Colors.brown,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Coffee Market",
+                                          style: TextStyle(
+                                            fontSize: 22.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: isDarkMode
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Dive into the coffee world",
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.normal,
+                                            color: isDarkMode
+                                                ? Colors.grey
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Card(
+                      elevation: 0.0,
+                      color: isDarkMode ? Colors.black : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        side: const BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                        ),
+                      ),
+                      child: Container(
+                        height: 195,
+                        width: 350,
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 50.0),
+                                  child: Icon(
+                                    Icons.show_chart,
+                                    size: 50.0,
+                                    color: Colors.brown,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Daily Trade Data",
+                                        style: TextStyle(
+                                          fontSize: 22.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: isDarkMode
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                      Text(
+                                        "today's result... ",
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.normal,
+                                          color: isDarkMode
+                                              ? Colors.grey
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  // New Small Cards
+                  Padding(
+                    padding: const EdgeInsets.only(right: 296.0, top: 10.0),
+                    child: Text(
+                      "Actors",
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 98.0),
+                          child: Card(
+                            elevation: 0.0,
+                            color: isDarkMode ? Colors.black : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              side: const BorderSide(
+                                color: Colors.purple,
+                                width: 1,
+                              ),
+                            ),
+                            child: Container(
+                              height: 120,
+                              width: 170,
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.send,
+                                    size: 30.0,
+                                    color: Colors.blue,
+                                  ),
+                                  Text(
+                                    "Exporters",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: isDarkMode
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 98.0),
+                          child: Card(
+                            elevation: 0.0,
+                            color: isDarkMode ? Colors.black : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              side: const BorderSide(
+                                color: Color.fromRGBO(1, 106, 192, 1),
+                                width: 1,
+                              ),
+                            ),
+                            child: Container(
+                              height: 120,
+                              width: 170, // Adjust the height as needed
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.business_center,
+                                    size: 30.0,
+                                    color: Colors.green,
+                                  ),
+                                  Text(
+                                    "Provider",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: isDarkMode
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 80.0, left: 16.0),
+                child: Text(
+                  "ቡና",
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.brown,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-  Widget _buildTopSection() {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        ClipOval(
-          child: Image.asset(
-            'assets/photo_2024-01-12_23-02-27.jpg', // Replace with your image asset
-            fit: BoxFit.cover,
-            height: 200.0,
-            width: 200.0,
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          color: Colors.black.withOpacity(0.5),
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            developer.name,
-            style: const TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDetailsSection() {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            developer.description,
-            style: const TextStyle(fontSize: 16.0, color: Colors.white),
-          ),
-          const SizedBox(height: 18.0),
-          _buildSectionTitle('Contact Me'),
-          
-          _buildContactInfo('Email', Icons.email, developer.email),
-          _buildContactInfo('Phone', Icons.phone, developer.phone),
-          _buildContactInfo('GitHub', Icons.link, developer.github),
-          _buildContactInfo('LinkedIn', Icons.link, developer.linkedIn),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContactInfo(String label, IconData icon, String value) {
-    return InkWell(
-      onTap: () {
-        
-        // Add more actions for other contact information if needed
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
-          children: [
-            Icon(icon, color: Colors.white),
-            const SizedBox(width: 8.0),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 18.0,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 8.0),
-            Expanded(
-              child: Text(
-                value,
-                style: const TextStyle(fontSize: 16.0, color: Colors.white),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAdditionalDetailsSection() {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          
-          const SizedBox(height: 10.0),
-         
-          _buildSectionTitle('About Me'),
-
-         
-          const Text(
-            'I am a passionate Flutter developer with a strong background in mobile app development. '
-            'My goal is to create efficient, scalable, and visually appealing applications that provide '
-            'a great user experience. I love learning and exploring new technologies to stay up-to-date '
-            'with the ever-evolving tech landscape.',
-            style: TextStyle(fontSize: 16.0, color: Colors.white),
-          ),
-
-          const SizedBox(height: 16.0),
-          _buildSectionTitle('Skills'),
-          _buildSkillsList(['Flutter', 'Dart', 'Python', 'Django', 'Firebase', 'Javascript','VueJs','Golang/Gin', 'PostgresDB','UI/UX Design']),
-
-          const SizedBox(height: 16.0),
-          _buildSectionTitle('Projects'),
-          _buildProjectsList([
-            'E-Learning Mobile App (Current Project)',
-            'Exit Exam App',
-            'AI integrated Music player App',
-            'Expense Tracking System',
-          ]),
-
-          const SizedBox(height: 16.0),
-          _buildSectionTitle('Portfolio'),
-          _buildPortfolioButton(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontSize: 18.0,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    );
-  }
-
-  Widget _buildSkillsList(List<String> skills) {
-    return Wrap(
-      spacing: 8.0,
-      runSpacing: 8.0,
-      children: skills
-          .map(
-            (skill) => Chip(
-              label: Text(skill),
-              backgroundColor: Colors.blue[900],
-              labelStyle: const TextStyle(color: Colors.white),
-            ),
-          )
-          .toList(),
-    );
-  }
-
-  Widget _buildProjectsList(List<String> projects) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: projects
-          .map(
-            (project) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                '• $project',
-                style: const TextStyle(fontSize: 16.0, color: Colors.white),
-              ),
-            ),
-          )
-          .toList(),
-    );
-  }
-
-  Widget _buildPortfolioButton() {
-    return ElevatedButton(
-      onPressed: () {
-        // Navigate to the portfolio screen
-        // You can replace the next line with your navigation logic
-        print('Navigate to Portfolio');
-      },
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Colors.blue[900],
-      ),
-      child: const Text('View Portfolio'),
-    );
-  }
-
-  // Open URL in browser
-
 }
-
-class MyDeveloper extends StatelessWidget {
-  const MyDeveloper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DetailScreen(
-        developer: Developer(
-          name: 'Yordanos Bogale',
-          description:  'Software Engineer | Flutter Developer | Ex intern @CREAVERS Service PLC & @AAiT | 5th year Software Engineering Student @AMU',
-          github: 'https://github.com/yordanos-bogale5',
-          linkedIn: 'https://www.linkedin.com/in/yordanos-bogale/',
-          email: 'bogaleyordanos64@gmail.com',
-          phone: '+251919709237',
-        ),
-      ),
-    );
-  }
-}
+*/
