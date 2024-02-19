@@ -1,55 +1,73 @@
-
-
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  // Define a list of coffee items.
-  final List<CoffeeItem> coffeeItems = [
-    const CoffeeItem(name: 'Espresso', price: 3.00),
-    const CoffeeItem(name: 'Americano', price: 3.50),
-    const CoffeeItem(name: 'Cappuccino', price: 4.00),
-    const CoffeeItem(name: 'Latte', price: 4.50),
-    const CoffeeItem(name: 'Mocha', price: 5.00),
-  ];
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isDarkMode = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Coffee Shop'),
-      ),
-      body: GridView.count(
-        // Create a grid with 2 columns.
-        crossAxisCount: 2,
-        // Generate a list of widgets for the grid.
-        children: coffeeItems.map((coffeeItem) => CoffeeItemTile(coffeeItem: coffeeItem)).toList(),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: const Text(
+            "Buna",
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              icon: Icon(
+                isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                color: Colors.amber.shade900,
+              ),
+              onPressed: () {
+                setState(() {
+                  isDarkMode = !isDarkMode;
+                });
+              },
+            ),
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5.0, // Set your desired elevation value
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0), // Set border radius as needed
+              side: BorderSide(
+                color: Colors.amber.shade900, // Set amber color
+                width: 1.0, // Set your desired thickness
+              ),
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              child: const Text(
+                "Coffee Market",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
-}
-
-// Define a custom widget for each coffee item.
-class CoffeeItemTile extends StatelessWidget {
-  final CoffeeItem coffeeItem;
-
-  const CoffeeItemTile({Key? key, required this.coffeeItem}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(coffeeItem.name),
-        subtitle: Text('\$${coffeeItem.price}'),
-        trailing: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-// Define a class to represent a coffee item.
-class CoffeeItem {
-  final String name;
-  final double price;
-
-  const CoffeeItem({required this.name, required this.price});
 }
